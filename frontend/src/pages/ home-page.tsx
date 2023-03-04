@@ -1,25 +1,33 @@
 import { useState } from "react";
+import AddForm from "../components/add-form";
 import TasksTable from "../components/tasks-table";
+import ToolsBar from "../components/tools-bar";
+import { fakeData } from "../fake-data";
 
 const HomePage = () => {
+  const [isAdd, setIsAdd] = useState<boolean>(true);
+  const [data, setData] = useState<any[] | []>(fakeData);
+  const [addButton, setAddButton] = useState<boolean>(false);
+  const [updatebutton, setUpdatebutton] = useState<boolean>(false);
+
   const tableHeadlist: string[] = [
-    "| הערות",
-    "| סטטוס ביצוע",
-    "| לקוח",
-    "| מיישם/מנהל פרויקט",
-    "| עלה לחי",
-    "| עדכון שרת 4",
-    "| עדכון שרת טסט",
-    "| שרת פיתוח",
-    "| תכניות קשורות",
-    "| לייבל",
-    "| תכנית",
-    "| CLASS",
-    "| חתימה",
-    "| מחיצה",
-    "| מהות",
-    "| מס' משימה/קריאה",
-    "| תאריך קבלת משימה",
+    "תאריך קבלת משימה",
+    "מס' משימה/קריאה",
+    "מהות",
+    "מחיצה",
+    "חתימה",
+    "CLASS",
+    "תכנית",
+    "לייבל",
+    "תכניות קשורות",
+    "שרת פיתוח",
+    "עדכון שרת טסט",
+    "עדכון שרת 4",
+    "עלה לחי",
+    "מיישם/מנהל פרויקט",
+    "לקוח",
+    "סטטוס ביצוע",
+    "הערות",
   ];
   const formInputList: string[] = [
     "date",
@@ -40,112 +48,43 @@ const HomePage = () => {
     "status",
     "comments",
   ];
-  const data: any = [
-    {
-      date: "02/27/2023",
-      task_num: 1001,
-      task_details: "פירוט משימה לדגומא",
-      name_space: "ACC",
-      signature: "Itay Eylath",
-      class: "class",
-      program_name: "WBLR",
-      label: "label",
-      related_programs: "WBLR",
-      dev_server: "example cache test (111.222.333.44)",
-      update_dev_server: "02/27/2023",
-      update_4_server: "02/27/2023",
-      update_prod_server: "update_prod_server",
-      project_manager: "יוני חנוני",
-      client: "גשר גולן",
-      status: "בוצע",
-      comments: "הערה לדוגמא",
-    },
-    {
-      date: "02/27/2023",
-      task_num: 1001,
-      task_details: "פירוט משימה לדגומא",
-      name_space: "ACC",
-      signature: "Itay Eylath",
-      class: "class",
-      program_name: "WBLR",
-      label: "label",
-      related_programs: "WBLR",
-      dev_server: "example cache test (111.222.333.44)",
-      update_dev_server: "02/27/2023",
-      update_4_server: "02/27/2023",
-      update_prod_server: "update_prod_server",
-      project_manager: "יוני חנוני",
-      client: "גשר גולן",
-      status: "בוצע",
-      comments: "הערה לדוגמא",
-    },
-    {
-      date: "02/27/2023",
-      task_num: 1002,
-      task_details: "פירוט משימה לדגומא",
-      name_space: "ACC",
-      signature: "Itay Eylath",
-      class: "class",
-      program_name: "WBLR",
-      label: "label",
-      related_programs: "WBLR",
-      dev_server: "example cache test (111.222.333.44)",
-      update_dev_server: "02/27/2023",
-      update_4_server: "02/27/2023",
-      update_prod_server: "update_prod_server",
-      project_manager: "יוני חנוני",
-      client: "גשר גולן",
-      status: "בוצע",
-      comments: "הערה לדוגמא",
-    },
-    {
-      date: "02/27/2023",
-      task_num: 1003,
-      task_details: "פירוט משימה לדגומא",
-      name_space: "ACC",
-      signature: "Itay Eylath",
-      class: "class",
-      program_name: "WBLR",
-      label: "label",
-      related_programs: "WBLR",
-      dev_server: "example cache test (111.222.333.44)",
-      update_dev_server: "02/27/2023",
-      update_4_server: "02/27/2023",
-      update_prod_server: "update_prod_server",
-      project_manager: "יוני חנוני",
-      client: "גשר גולן",
-      status: "בוצע",
-      comments: "הערה לדוגמא",
-    },
-    {
-      date: "02/27/2023",
-      task_num: 1004,
-      task_details: "פירוט משימה לדגומא",
-      name_space: "ACC",
-      signature: "Itay Eylath",
-      class: "class",
-      program_name: "WBLR",
-      label: "label",
-      related_programs: "WBLR",
-      dev_server: "example cache test (111.222.333.44)",
-      update_dev_server: "02/27/2023",
-      update_4_server: "02/27/2023",
-      update_prod_server: "update_prod_server",
-      project_manager: "יוני חנוני",
-      client: "גשר גולן",
-      status: "בוצע",
-      comments: "הערה לדוגמא",
-    },
-  ];
+
+  // Click on add button.
+  const handelButtonAdd = () => {
+    setAddButton(!addButton);
+    setUpdatebutton(false);
+  };
+
+  // Submit form data to server for add.
+  const handelSubmitAdd = async (event: any) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    // Server request.
+    //await reqAddContainer(Object.fromEntries(data) as unknown as Container);
+    console.log(Object.fromEntries(data));
+    setData((value: any) => [...value, Object.fromEntries(data)]);
+    setIsAdd(!isAdd);
+  };
 
   return (
     <div>
-      <h1>אקסל פיתוחים</h1>
+      <ToolsBar handelButtonAdd={handelButtonAdd} />
+
       <TasksTable
         head={tableHeadlist}
         body={data}
         elementTypes={formInputList}
       />
+
+      <div className="hidden-divs">
+        {addButton && (
+          <AddForm
+            inputsNames={formInputList}
+            placeholdersNames={tableHeadlist}
+            handelSubmitAdd={handelSubmitAdd}
+          />
+        )}
+      </div>
     </div>
   );
 };

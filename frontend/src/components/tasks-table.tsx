@@ -1,3 +1,4 @@
+import "../styles/tasks-table.scss";
 interface TableProps {
   head: string[];
   body: any;
@@ -10,7 +11,7 @@ const TasksTable = (props: TableProps) => {
       {/* Create table header content*/}
       <thead>
         <tr className="table-head-row">
-          {props.head.map((element: string, index: number) => {
+          {props.head.slice(0).reverse().map((element: string, index: number) => {
             return (
               <th className="table-th" key={index}>
                 {element}
@@ -18,8 +19,7 @@ const TasksTable = (props: TableProps) => {
               
             );
           })}
-          <th className="table-th-empty"></th>
-          <th className="table-th-empty"></th>
+
         </tr>
       </thead>
 
@@ -29,7 +29,7 @@ const TasksTable = (props: TableProps) => {
           return (
             <tr className="table-body-row" key={index}>
 
-              {props.elementTypes.map((type: any, index: number) => {
+              {props.elementTypes.slice(0).reverse().map((type: any, index: number) => {
                 return <td className="table-body-td" key={index}>{element[type]}</td>;
               })}
               

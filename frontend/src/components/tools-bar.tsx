@@ -1,6 +1,5 @@
 import Edit from "../assets/edit-icon";
 import Arrow from "../assets/arrow.png";
-import "../styles/tools-bar.scss";
 
 interface ToolsBarProps {
     handelButtonAdd: any;

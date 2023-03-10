@@ -1,4 +1,3 @@
-import "../styles/tasks-table.scss";
 interface TableProps {
   head: string[];
   body: any;

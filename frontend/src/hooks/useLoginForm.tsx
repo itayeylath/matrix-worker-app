@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { login, signup } from '../store/actions/user-actions';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-export const useLoginForm = () => {
+interface useLoginFormProps {
+	isLogin: boolean;
+}
+export const useLoginForm = ({ isLogin }: useLoginFormProps) => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [email, setEmail] = useState('');
+
+	const { pathname } = useLocation();
 
 	const [errors, setErrors] = useState({
 		username: '',
@@ -12,6 +20,9 @@ export const useLoginForm = () => {
 		email: '',
 		confirmPassword: '',
 	});
+
+	const dispatch: any = useDispatch();
+	const navigate = useNavigate();
 
 	const validateInput = (name: string, value: string) => {
 		let errorMessage = '';
@@ -47,15 +58,29 @@ export const useLoginForm = () => {
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
 
-		// Validate inputs
 		validateInput('username', username);
 		validateInput('password', password);
-		validateInput('confirmPassword', confirmPassword);
-		validateInput('email', email);
+
+		// Validate inputs
+		if (!isLogin) {
+			validateInput('confirmPassword', confirmPassword);
+			validateInput('email', email);
+		}
 
 		// Check if there are any errors
 		if (Object.values(errors).every((val: string) => val === '')) {
-			alert('Form submitted successfully!');
+
+			const userToLogin: any = { password };
+			userToLogin[username !== '' ? 'username' : 'email'] =
+				username !== '' ? username : email;
+
+			if (pathname == '/signup') {
+				dispatch(signup({ username, password, email }));
+			} else {
+				dispatch(login({ ...userToLogin }));
+			}
+
+			navigate('/home');
 			setUsername('');
 			setPassword('');
 			setEmail('');

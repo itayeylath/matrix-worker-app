@@ -9,7 +9,6 @@ interface UsernameProps {
 export const Username = ({ errors, setUsername, validateInput, username }: UsernameProps) => {
 	return (
 		<>
-			<h1 className="form-title">Login</h1>
 			<div className="form-group">
 				<label className="form-label" htmlFor="username">
 					Username

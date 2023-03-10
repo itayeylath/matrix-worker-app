@@ -43,7 +43,7 @@ async function update(user: any) {
 	}
 }
 
-async function login(userCred: string) {
+async function login(userCred: any) {
 	try {
 		const user = await axios.post('login', userCred);
 		return user;
@@ -51,7 +51,7 @@ async function login(userCred: string) {
 		return error.response;
 	}
 }
-async function signup(userCred: string) {
+async function signup(userCred: any) {
 	try {
 	} catch (error) {
 		return error.response;

@@ -6,6 +6,7 @@ interface UsernameProps {
 	validateInput: (name: string, value: string) => void;
 	username: string;
 }
+
 export const Username = ({ errors, setUsername, validateInput, username }: UsernameProps) => {
 	return (
 		<>

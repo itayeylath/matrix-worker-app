@@ -8,13 +8,13 @@ import YearIcon from "../assets/year-icon";
 import { create2DArray } from "../utilities/add-form-func";
 import "../styles/add-form.scss";
 
-interface AddFormProps {
+interface UpdateFormProps {
   inputsNames: string[];
-  placeholdersNames: string[];
-  handelSubmitAdd: any;
+  handelSubmitUpdate: any;
+  updateData: any;
 }
 
-const AddForm = (props: AddFormProps) => {
+const UpdateForm = (props: UpdateFormProps) => {
   const svgArr: any = [
     <IdIcon />,
     <ModelIcon />,
@@ -34,20 +34,19 @@ const AddForm = (props: AddFormProps) => {
     <LocationIcon />,
     <OwnerIcon />,
   ];
-  const arr = create2DArray(props.inputsNames, props.placeholdersNames, svgArr);
-
+  const arr = create2DArray(props.inputsNames, svgArr,[]);
   return (
     <div className="add-form">
-      <form onSubmit={props.handelSubmitAdd}>
-        {arr.map((element: any, index: number) => {
+      <form onSubmit={props.handelSubmitUpdate}>
+        {arr.map((element: string, index: number) => {
           return (
             <div className="add-row" key={index}>
-              <div className="add-icon">{element[2]}</div>
+              <div className="add-icon">{element[1]}</div>
               <input
                 className="add-input"
                 key={index}
                 name={element[0]}
-                placeholder={element[1]}
+                defaultValue={props.updateData.element[element[0]]}
               />
             </div>
           );
@@ -57,4 +56,4 @@ const AddForm = (props: AddFormProps) => {
     </div>
   );
 };
-export default AddForm;
+export default UpdateForm;

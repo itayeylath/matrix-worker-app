@@ -2,13 +2,14 @@ import { useState } from "react";
 import AddForm from "../components/add-form";
 import TasksTable from "../components/tasks-table";
 import ToolsBar from "../components/tools-bar";
+import UpdateForm from "../components/update-form";
 import { fakeData } from "../fake-data";
 
 const HomePage = () => {
-  const [isAdd, setIsAdd] = useState<boolean>(true);
   const [data, setData] = useState<any[] | []>(fakeData);
   const [addButton, setAddButton] = useState<boolean>(false);
   const [updatebutton, setUpdatebutton] = useState<boolean>(false);
+  const [updateData, setUpdateData] = useState<any | undefined>();
 
   const tableHeadlist: string[] = [
     "תאריך קבלת משימה",
@@ -60,10 +61,52 @@ const HomePage = () => {
     event.preventDefault();
     const data = new FormData(event.target);
     // Server request.
-    //await reqAddContainer(Object.fromEntries(data) as unknown as Container);
-    console.log(Object.fromEntries(data));
     setData((value: any) => [...value, Object.fromEntries(data)]);
-    setIsAdd(!isAdd);
+  };
+
+  // Click on delete button.
+  const handelButtonDelete = async (index: number) => {
+    // TODO: add Server request.
+
+    // TODO: expport to utilis (?)
+    let newData = [];
+
+    for (let i = 0; i < data.length; i++) {
+      if (i !== index) {
+        newData.push(data[i]);
+      }
+    }
+
+    setData(newData);
+  };
+
+  // Click on update button.
+  const handelButtonUpdate = async (element: any, index: number) => {
+    setUpdateData({
+      element: element,
+      index: index,
+    });
+    setUpdatebutton(!updatebutton);
+    setAddButton(false);
+  };
+
+  // Submit form data to server for update.
+  const handelSubmitUpdate = async (event: any) => {
+    event.preventDefault();
+    const element = Object.fromEntries(new FormData(event.target));
+    // Server request.
+    // TODO: expport to utilis (?)
+    let newData = [];
+
+    for (let i = 0; i < data.length; i++) {
+      if (i !== updateData.index) {
+        newData.push(data[i]);
+      } else {
+        newData.push(element);
+      }
+    }
+    setData(newData);
+    console.log(newData);
   };
 
   return (
@@ -74,6 +117,8 @@ const HomePage = () => {
         head={tableHeadlist}
         body={data}
         elementTypes={formInputList}
+        handelButtonDelete={handelButtonDelete}
+        handelButtonUpdate={handelButtonUpdate}
       />
 
       <div className="hidden-divs">
@@ -82,6 +127,13 @@ const HomePage = () => {
             inputsNames={formInputList}
             placeholdersNames={tableHeadlist}
             handelSubmitAdd={handelSubmitAdd}
+          />
+        )}
+        {updatebutton && (
+          <UpdateForm
+            inputsNames={formInputList}
+            handelSubmitUpdate={handelSubmitUpdate}
+            updateData={updateData}
           />
         )}
       </div>

@@ -4,10 +4,10 @@ interface EmailProps {
 	errors: any;
 	setEmail: (email: string) => void;
 	validateInput: (name: string, value: string) => void;
-    email: string
+	email: string;
 }
 
-export const Email = ({ errors, setEmail, validateInput ,email}: EmailProps) => {
+export const Email = ({ errors, setEmail, validateInput, email }: EmailProps) => {
 	return (
 		<>
 			<div className="form-group">

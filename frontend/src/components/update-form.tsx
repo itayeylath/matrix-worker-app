@@ -6,7 +6,6 @@ import QuantityIcon from "../assets/quantity-icon";
 import SzieIcon from "../assets/size-icon";
 import YearIcon from "../assets/year-icon";
 import { create2DArray } from "../utilities/add-form-func";
-import "../styles/add-form.scss";
 
 interface UpdateFormProps {
   inputsNames: string[];
@@ -34,7 +33,7 @@ const UpdateForm = (props: UpdateFormProps) => {
     <LocationIcon />,
     <OwnerIcon />,
   ];
-  const arr = create2DArray(props.inputsNames, svgArr,[]);
+  const arr = create2DArray(props.inputsNames, svgArr, []);
   return (
     <div className="add-form">
       <form onSubmit={props.handelSubmitUpdate}>

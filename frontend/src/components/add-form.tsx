@@ -6,7 +6,7 @@ import QuantityIcon from "../assets/quantity-icon";
 import SzieIcon from "../assets/size-icon";
 import YearIcon from "../assets/year-icon";
 import { create2DArray } from "../utilities/add-form-func";
-import "../styles/add-form.scss";
+
 
 interface AddFormProps {
   inputsNames: string[];
